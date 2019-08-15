@@ -1,0 +1,52 @@
+death_anxiety = []
+religiosity = []
+with open("Data.txt") as file:
+    rows = file.readlines()
+for x in range(1, len(rows)):#starts at index 1, skip header
+    columns = rows[x].split(",")
+    death_anxiety.append(int(columns[0]))
+    religiosity.append(int(columns[1]))
+variance_of_death_anxiety = 0
+
+sum_of_death_anxiety = 0
+avg_of_death_anxiety = 0
+for value in death_anxiety:
+    sum_of_death_anxiety += value
+avg_of_death_anxiety = sum_of_death_anxiety/len(death_anxiety)
+
+differences_of_death_anxiety_and_average = []
+for value in death_anxiety:
+    differences_of_death_anxiety_and_average.append(avg_of_death_anxiety - value)
+squared_differences_in_death_anxiety = 0
+for value in differences_of_death_anxiety_and_average:
+    squared_differences_in_death_anxiety += value**2
+
+variance_of_death_anxiety = squared_differences_in_death_anxiety/(len(death_anxiety) - 1)
+
+
+
+variance_of_religiosity = 0
+
+sum_of_religiosity = 0
+avg_of_religiosity = 0
+for value in religiosity:
+    sum_of_religiosity += value
+avg_of_religiosity = sum_of_religiosity/len(religiosity)
+
+differences_of_religiosity_and_average = []
+for value in religiosity:
+    differences_of_religiosity_and_average.append(avg_of_religiosity - value)
+squared_differences_in_religiosity = 0
+for value in differences_of_religiosity_and_average:
+    squared_differences_in_religiosity += value**2
+
+variance_of_religiosity = squared_differences_in_religiosity/(len(religiosity) - 1)
+
+covariance = 0
+for x in range(len(differences_of_death_anxiety_and_average)):
+    covariance += (differences_of_religiosity_and_average[x]*differences_of_death_anxiety_and_average[x])
+
+covariance /= (len(differences_of_death_anxiety_and_average) - 1)
+
+correlation = covariance/((variance_of_death_anxiety * variance_of_religiosity)**(1/2.0))
+print("Correlation: " + str(correlation))

@@ -1,0 +1,25 @@
+import pandas , scipy , matplotlib, numpy
+from statsmodels.formula.api import ols
+import statsmodels.api as sm
+
+print("hello world")
+data = pandas.read_csv("data_input.csv", sep=",")
+print(data.shape)#prints num of rows, num of columns
+print(data.columns)#prints column names
+
+data.plot(x = "DA", y = "R", kind = "scatter")
+model = ols("DA ~ R", data).fit()#Find Regression from dataframe
+print(model.summary())
+
+
+data_subset = data.dropna(subset=['DA','R'])
+#data_subset = data_subset[data_subset]
+
+x = data_subset['DA']
+y = data_subset['R']
+b, m = numpy.polynomial.polynomial.polyfit(x,y,1)
+matplotlib.pyplot.plot(x,y,'.')
+matplotlib.pyplot.plot(x, b + m * x, '-')
+
+matplotlib.pyplot.show()
+
